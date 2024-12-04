@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // step1:dom containt load; step2:grap elements
   // step3:create array; step4:add eventlistner to btn
   // step5:render things in list //step6:calculate total
+  // step7:add local storage
 
 //s2
   const expenseForm = document.getElementById('expense-form')
@@ -13,7 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalAmount = document.getElementById('total-amount')
 
 //s3
-  let expenseArray = []
+//s7(b)
+  let expenseArray = JSON.parse(localStorage.getItem("key")) || []
+
+//s7(c)
+ expenseArray.forEach(element => {
+  renderItems(element)
+  calculateAmount(expenseArray)
+ }); 
 //s4
   btn.addEventListener('click', (e) => {
     e.preventDefault()
@@ -32,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderItems(object)
     //calculate Amount
     calculateAmount(expenseArray)
+    setLocalStorage()
 
   })
 //s5
@@ -48,5 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
       netAmount += e.amount
     });
     totalAmount.innerText = `${netAmount.toFixed(2)}`
+  }
+ //s7(a) 
+  function setLocalStorage(){
+    localStorage.setItem('key',JSON.stringify(expenseArray))
   }
 })
