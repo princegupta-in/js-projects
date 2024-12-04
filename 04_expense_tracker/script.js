@@ -1,8 +1,8 @@
 //s1
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
   // step1:dom containt load; step2:grap elements
   // step3:create array; step4:add eventlistner to btn
-  // step5:render things in list
+  // step5:render things in list //step6:calculate total
 
 //s2
   const expenseForm = document.getElementById('expense-form')
@@ -15,28 +15,38 @@ document.addEventListener('DOMContentLoaded',()=>{
 //s3
   let expenseArray = []
 //s4
-  btn.addEventListener('click',(e)=>{
+  btn.addEventListener('click', (e) => {
     e.preventDefault()
 
     const expenseName1 = expenseName.value.trim();
     const expenseValue1 = parseInt(expenseAmount.value.trim());
-    if(expenseName1==='' || isNaN(expenseValue1)) return
+    if (expenseName1 === '' || isNaN(expenseValue1)) return
     //parseint will make the typeof anything to typeof number
-    let object={
-      id:Date.now(),
-      name:expenseName1,
-      amount:expenseValue1
+    let object = {
+      id: Date.now(),
+      name: expenseName1,
+      amount: expenseValue1
     }
     expenseArray.push(object)
     console.log(expenseArray)
     renderItems(object)
+    //calculate Amount
+    calculateAmount(expenseArray)
 
   })
 //s5
-  function renderItems(pista){
+  function renderItems(pista) {
     const li = document.createElement('li')
     // li.classList.add(`${pista.id}`)
-    li.innerHTML=`Item:${pista.name} - Amount:$${pista.amount}`
+    li.innerHTML = `Item:${pista.name} - Amount:$${pista.amount}`
     expenseList.appendChild(li);
+  }
+//s6
+  function calculateAmount(arrayKeAndarObject) {
+    let netAmount = 0;
+    arrayKeAndarObject.forEach(e => {
+      netAmount += e.amount
+    });
+    totalAmount.innerText = `${netAmount.toFixed(2)}`
   }
 })
