@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   const product = [
     { id: 1, name: 'product 1', price: 29.90 },
     { id: 2, name: 'product 2', price: 75.80 },
     { id: 3, name: 'product 3', price: 26.36 }
   ]
 
-  const cart = [];
+  const cart = JSON.parse(localStorage.getItem('key')) || [];
 
   const productList = document.getElementById('product-list')
   const cartItems = document.getElementById('cart-items')
@@ -15,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalPriceValue = document.getElementById('total-price')
   const checkoutBtn = document.getElementById('checkout-btn')
 
+  renderCart() //calling it here so just after loading the cart gets render
   product.forEach(e => {
     const createdDiv = document.createElement('div');
     createdDiv.classList.add('product');
@@ -40,12 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addToCart(prod) {
     cart.push(prod)
-    // console.log(cart);
+    console.log(cart);
     renderCart()
+    setLocalStorage()
 
   }
   function renderCart() {
-    cart.innerText = ''
+    // cart.innerText = ''
     let totalPrice = 0;
 
     if (cart.length > 0) {
@@ -63,10 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
       totalPriceValue.textContent = `$${totalPrice.toFixed(2)}`
     }
     else {
-      emptyCartMessage.classList.add('hidden')
+      emptyCartMessage.classList.remove('hidden')
       totalPriceValue.textContent = `$${0.00}`
 
     }
+    setLocalStorage()
   }
   checkoutBtn.addEventListener('click',()=>{
     alert('checkout sucessfull')
@@ -76,5 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItems.innerText='Your cart is empty.'
     
   })
+
+  function setLocalStorage(){
+    localStorage.setItem('key',JSON.stringify(cart))
+  }
 
 })
